@@ -28,6 +28,8 @@ public class ContactActivity extends AppCompatActivity {
     private EditText companyName;
     private Button exportButton;
     private Button saveButton;
+    private boolean editing;
+    private int CARD_NUMBER;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,28 @@ public class ContactActivity extends AppCompatActivity {
         email.setText(data.getStringExtra("EMAIL"));
         phone.setText(data.getStringExtra("PHONE"));
         name.setText(data.getStringExtra("NAME"));
+
+        if(data.getAction() == MainActivity.ACTION_POPULATE) {
+            int CARD_NUMBER = data.getIntExtra("CARD_NUMBER",-1);
+            switch (CARD_NUMBER){
+                case 1:
+                    populateCard((ContactCard) data.getParcelableExtra("CARD1_CARD"));
+                    break;
+                case 2:
+                    populateCard((ContactCard) data.getParcelableExtra("CARD2_CARD"));
+                    break;
+                case 3:
+                    populateCard((ContactCard) data.getParcelableExtra("CARD3_CARD"));
+                    break;
+                case 4:
+                    populateCard((ContactCard) data.getParcelableExtra("CARD4_CARD"));
+                    break;
+                case 5:
+                    populateCard((ContactCard) data.getParcelableExtra("CARD5_CARD"));
+                    break;
+            }
+        }
+
 
 
         exportButton.setOnClickListener(new View.OnClickListener() {
@@ -70,31 +94,26 @@ public class ContactActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ContactCard contactCard = new ContactCard(  name.getText().toString(),
-                                                            companyName.getText().toString(),
-                                                            phone.getText().toString(),
-                                                            email.getText().toString());
-                String data = (contactCard.getName()+"\n"+contactCard.getCompanyName()+"\n"+
-                                contactCard.getPhone()+"\n"+contactCard.getEmail());
-                writeToFile(data, getApplicationContext());
-//                Intent data = getIntent();
-//                Parcelable[] parcelables = data.getParcelableArrayExtra(MainActivity);
-//                data.putPa
+                ContactCard contactCard = new ContactCard(name.getText().toString(),
+                        companyName.getText().toString(),
+                        phone.getText().toString(),
+                        email.getText().toString());
+                Intent test = new Intent();
+                test.putExtra("CONTACT_CARD", contactCard);
+                if (editing) test.putExtra("CARD_NUMBER", CARD_NUMBER);
+                setResult(RESULT_OK, test);
+                finish();
             }
         });
 
 
     }
 
-    private void writeToFile(String data, Context context) {
-        File path = context.getFilesDir();
-        File file = new File(path, "testtest.dtr");
-        try {
-            FileOutputStream stream = new FileOutputStream(file);
-            stream.write("text-to-write".getBytes());
-            stream.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
+    private void populateCard(ContactCard contactCard){
+        name.setText(contactCard.getName());
+        phone.setText(contactCard.getPhone());
+        email.setText(contactCard.getEmail());
+        companyName.setText(contactCard.getCompanyName());
+        editing = true;
     }
 }

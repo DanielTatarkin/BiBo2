@@ -1,6 +1,7 @@
 package com.max.explo.bibo;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,9 +10,15 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
+import com.max.explo.bibo.model.ContactCard;
+
+import java.lang.reflect.Array;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String CARD_KEY = "CARD_KEY";
+    public static final String ACTION_POPULATE = "ACTION_POPULATE";
 
     private boolean autoFocus = true;
     private boolean useFlash = false;
@@ -23,19 +30,21 @@ public class MainActivity extends AppCompatActivity {
     private Button card5;
     private String email = "";
     private String phone = "";
+    ContactCard[] cardList = new ContactCard[5];
 
 
     private static final int RC_OCR_CAPTURE = 9003;
     private static final String TAG = "MainActivity";
-    private static final String CARD_KEY = "CARD_KEY";
     private boolean emailRead = false;
     private boolean phoneRead = false;
+    int cardIndex = 0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         cameraButton = findViewById(R.id.cameraB);
 
@@ -85,10 +94,11 @@ public class MainActivity extends AppCompatActivity {
                     if (!emailRead && !phoneRead){
 //                        debugToast("ERROR", "nothing found");
                         intent.putExtra("NAME",getName(text));
-                        startActivity(intent);
                     } else {
-                        startActivity(intent);
+//                        debugToast("ERROR", "here");
                     }
+//                    startActivityForResult(intent,requestCode);
+                    trySaving(getName(text), email, phone, intent);
                     phoneRead = false;
                     emailRead = false;
 
@@ -97,6 +107,28 @@ public class MainActivity extends AppCompatActivity {
                 }
             } else {
             }
+        } else if (requestCode == 6001) {
+            Parcelable parcelable = data.getParcelableExtra("CONTACT_CARD");
+            cardList[cardIndex] = (ContactCard) parcelable;
+            switch (cardIndex) {
+                case 0:
+                    card1.setText(cardList[cardIndex].getName());
+                    break;
+                case 1:
+                    card2.setText(cardList[cardIndex].getName());
+                    break;
+                case 2:
+                    card3.setText(cardList[cardIndex].getName());
+                    break;
+                case 3:
+                    card4.setText(cardList[cardIndex].getName());
+                    break;
+                case 4:
+                    card5.setText(cardList[cardIndex].getName());
+                    break;
+            }
+            cardIndex++;
+            if (cardIndex == 5) cardIndex = 0;
         }
         else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -107,6 +139,10 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, action +" is " + text, Toast.LENGTH_LONG).show();
     }
 
+    private void trySaving(String name, String email, String phone, Intent intent){
+        startActivityForResult(intent,6001);
+    }
+
     public View.OnClickListener cardHandler = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -114,14 +150,44 @@ public class MainActivity extends AppCompatActivity {
 
             switch (v.getId()) {
                 case R.id.card1:
+                    if (card1.getText() != ""){
+                        intent.setAction(ACTION_POPULATE);
+                        intent.putExtra("CARD_NUMBER",1);
+                        intent.putExtra("CARD1_CARD",cardList[0]);
+                        startActivity(intent);
+                    }
                     break;
                 case R.id.card2:
+                    if (card2.getText() != ""){
+                        intent.setAction(ACTION_POPULATE);
+                        intent.putExtra("CARD_NUMBER",2);
+                        intent.putExtra("CARD2_CARD",cardList[1]);
+                        startActivity(intent);
+                    }
                     break;
                 case R.id.card3:
+                    if (card3.getText() != ""){
+                        intent.setAction(ACTION_POPULATE);
+                        intent.putExtra("CARD_NUMBER",3);
+                        intent.putExtra("CARD3_CARD",cardList[2]);
+                        startActivity(intent);
+                    }
                     break;
                 case R.id.card4:
+                    if (card4.getText() != ""){
+                        intent.setAction(ACTION_POPULATE);
+                        intent.putExtra("CARD_NUMBER",4);
+                        intent.putExtra("CARD4_CARD",cardList[3]);
+                        startActivity(intent);
+                    }
                     break;
                 case R.id.card5:
+                    if (card5.getText() != ""){
+                        intent.setAction(ACTION_POPULATE);
+                        intent.putExtra("CARD_NUMBER",5);
+                        intent.putExtra("CARD5_CARD",cardList[4]);
+                        startActivity(intent);
+                    }
                     break;
             }
 
