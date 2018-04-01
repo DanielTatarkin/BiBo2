@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/cardTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/carme"
+        android:text="Business Card"
+        android:textColor="@android:color/black"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/nameCardText"
+        android:layout_width="318dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="66dp"
+        android:ems="10"
+        android:fontFamily="@font/carme"
+        android:hint="Name"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/companyNameText"
+        android:layout_width="318dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="126dp"
+        android:ems="10"
+        android:fontFamily="@font/carme"
+        android:hint="Company"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/phoneText"
+        android:layout_width="318dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="243dp"
+        android:ems="10"
+        android:fontFamily="@font/carme"
+        android:hint="Phone"
+        android:inputType="phone" />
+
+    <EditText
+        android:id="@+id/emailText"
+        android:layout_width="318dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="186dp"
+        android:ems="10"
+        android:fontFamily="@font/carme"
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="163dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="155dp"
+        android:background="#50d7ca"
+        android:fontFamily="@font/carme"
+        android:text="Save"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/exportButton"
+        android:layout_width="163dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/saveButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-141dp"
+        android:background="#50d7ca"
+        android:fontFamily="@font/carme"
+        android:text="Export"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+</RelativeLayout>
