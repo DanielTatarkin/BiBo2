@@ -1,13 +1,22 @@
 package com.max.explo.bibo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.*;
 
 import com.max.explo.bibo.model.ContactCard;
 
@@ -32,6 +41,12 @@ public class ContactActivity extends AppCompatActivity {
         exportButton = findViewById(R.id.exportButton);
         saveButton = findViewById(R.id.saveButton);
 
+        Intent data = getIntent();
+        email.setText(data.getStringExtra("EMAIL"));
+        phone.setText(data.getStringExtra("PHONE"));
+        name.setText(data.getStringExtra("NAME"));
+
+
         exportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,6 +63,7 @@ public class ContactActivity extends AppCompatActivity {
                         .putExtra(ContactsContract.Intents.Insert.COMPANY, companyName.getText().toString());
 
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -58,10 +74,27 @@ public class ContactActivity extends AppCompatActivity {
                                                             companyName.getText().toString(),
                                                             phone.getText().toString(),
                                                             email.getText().toString());
-                Intent data = getIntent();
-                Parcelable[] parcelables = data.getParcelableArrayExtra(MainActivity.CARD)
-                data.putPa
+                String data = (contactCard.getName()+"\n"+contactCard.getCompanyName()+"\n"+
+                                contactCard.getPhone()+"\n"+contactCard.getEmail());
+                writeToFile(data, getApplicationContext());
+//                Intent data = getIntent();
+//                Parcelable[] parcelables = data.getParcelableArrayExtra(MainActivity);
+//                data.putPa
             }
         });
+
+
+    }
+
+    private void writeToFile(String data, Context context) {
+        File path = context.getFilesDir();
+        File file = new File(path, "testtest.dtr");
+        try {
+            FileOutputStream stream = new FileOutputStream(file);
+            stream.write("text-to-write".getBytes());
+            stream.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
     }
 }

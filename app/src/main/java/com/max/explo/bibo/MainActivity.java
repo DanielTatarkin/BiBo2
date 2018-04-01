@@ -73,16 +73,25 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "Text read: " + text);
                     email = getEmail(text);
                     phone = getPhone(text);
+                    Intent intent = new Intent(getApplicationContext(), ContactActivity.class);
                     if (emailRead) {
                         debugToast("Email", email);
+                        intent.putExtra("EMAIL",email);
                     } if (phoneRead) {
                         debugToast("Phone", phone);
-                    } if (!emailRead && !phoneRead){
-                        debugToast("ERROR", "nothing found");
-                    } else {
-                        phoneRead = false;
-                        emailRead = false;
+                        intent.putExtra("PHONE",phone);
                     }
+
+                    if (!emailRead && !phoneRead){
+//                        debugToast("ERROR", "nothing found");
+                        intent.putExtra("NAME",getName(text));
+                        startActivity(intent);
+                    } else {
+                        startActivity(intent);
+                    }
+                    phoneRead = false;
+                    emailRead = false;
+
                 } else {
                     Log.d(TAG, "No Text captured, intent data is null");
                 }
@@ -131,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        return cemail;
+        return "";
     }
 
     private void phoneSaved(String action, String text) {
@@ -155,6 +164,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return "";
+    }
+
+    private String getName(String text) {
+        String[] ctext = text.split("\n");
+        return ctext[0];
     }
 
     @Override
