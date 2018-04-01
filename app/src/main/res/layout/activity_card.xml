@@ -27,7 +27,7 @@
         android:ems="10"
         android:fontFamily="@font/carme"
         android:hint="Name"
-        android:inputType="textPersonName" />
+        android:inputType="textCapWords|textPersonName" />
 
     <EditText
         android:id="@+id/companyNameText"
@@ -39,7 +39,7 @@
         android:ems="10"
         android:fontFamily="@font/carme"
         android:hint="Company"
-        android:inputType="textPersonName" />
+        android:inputType="textCapWords|textPersonName" />
 
     <EditText
         android:id="@+id/phoneText"
@@ -62,8 +62,7 @@
         android:layout_marginTop="186dp"
         android:ems="10"
         android:fontFamily="@font/carme"
-        android:hint="Email"
-        android:inputType="textEmailAddress" />
+        android:hint="Email" />
 
     <Button
         android:id="@+id/saveButton"
@@ -92,4 +91,13 @@
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_alignEnd="@+id/nameCardText"
+        android:layout_centerVertical="true"
+        android:background="@android:drawable/ic_menu_add" />
+
 </RelativeLayout>
